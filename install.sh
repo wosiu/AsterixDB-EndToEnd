@@ -4,13 +4,14 @@ set -e
 
 if [ "$PROJECT_HOME" == "" ]
 then
-	pushd `dirname $0`/.. > /dev/null
+	pushd `dirname $0` > /dev/null
 	PROJECT_HOME=`pwd -P`
 	popd > /dev/null
 fi
 
+# todo wget asterixdb
 # todo install ansible
-# todo build udf
+
 pushd "$PROJECT_HOME/scripts"
 	# TODO sysbanner..	
 	./install_udfs.sh || { echo "Error $LINENO"; exit 1; }
