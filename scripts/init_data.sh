@@ -3,9 +3,8 @@
 
 if [ "$PROJECT_HOME" == "" ]
 then
-	pushd `dirname $0` > /dev/null
+	pushd `dirname $0`/.. > /dev/null
 	PROJECT_HOME=`pwd -P`
-	PROJECT_HOME+="/.."
 	popd > /dev/null
 fi
 
