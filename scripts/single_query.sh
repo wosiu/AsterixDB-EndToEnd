@@ -2,7 +2,7 @@
 
 if [ "$1" == "" ]
 then
-	echo "Usage: ./query.sh similarity_threshold, e.g. ./query.sh 0.01"
+	echo "Usage: ./query.sh similarity_threshold, e.g. ./query.sh 0.6"
 	exit 1
 fi
 	
@@ -22,7 +22,7 @@ QUERY+="         SELECT VALUE t2.id  "
 QUERY+="         FROM TweetsSet t2 "
 QUERY+="         LET "
 QUERY+="             shng2 = test.\`testlib#shingle\`(t2.text, $SHINGLE), "
-QUERY+="             sim = similarity_jaccard_check(shng1, shng2, $JACCARD)[0] "
+QUERY+="             sim = (similarity_jaccard(shng1, shng2) > $JACCARD)"
 QUERY+="         WHERE sim AND t1.id != t2.id "
 QUERY+="    ); "
 
