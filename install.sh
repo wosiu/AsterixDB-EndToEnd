@@ -17,10 +17,9 @@ then
 	exit 1;
 fi
 
-# todo install ansible
-
 pushd "$PROJECT_HOME/scripts"
-	# TODO sysbanner..
+	echo "============== INSTALLING ANSIBLE ==========="
+	./install_ansible.sh || { echo "Error $LINENO"; exit 1; }
 	echo "============== INSTALLING ASTERIX ==========="
 	./install_asterix.sh || { echo "Error $LINENO"; exit 1; }
 	echo "=============== INSTALLING UDFS ============="
