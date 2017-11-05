@@ -7,11 +7,13 @@ then
 	popd > /dev/null
 fi
 
-proc=`jps -l | grep org.apache.hyracks.control | wc -l`
+function getAsterixProcNum() {
+	echo `jps -l | grep org.apache.hyracks.control | wc -l`
+}
 
-if [[ $proc > 0 ]]
+if [[ `getAsterixProcNum` > 0 ]]
 then
-	echo "Asterix already running, skipping..";
+	echo "Asterix already running, skipping start..";
 	exit 0;
 fi
 
@@ -19,3 +21,16 @@ ASTERIX_HOME="$PROJECT_HOME/asterixdb"
 pushd "$ASTERIX_HOME/opt/ansible/bin" > /dev/null
 	./start.sh
 popd > /dev/null
+
+i=1
+while [[ `getAsterixProcNum` < 3 && $i < 10 ]]
+do
+	sleep 1
+	i=$[i+1]
+done
+
+if [[ `getAsterixProcNum` < 3 ]]
+then
+	echo "Cannot start asterix"
+	exit 1
+fi

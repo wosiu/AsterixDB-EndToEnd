@@ -9,11 +9,19 @@ then
 	popd > /dev/null
 fi
 
-# todo wget asterixdb
+proc=`jps -l | grep org.apache.hyracks.control | wc -l`
+
+if [[ $proc > 0 ]]
+then
+	echo "Hyracks is running, stop previous asterix execution..";
+	exit 1;
+fi
+
 # todo install ansible
 
 pushd "$PROJECT_HOME/scripts"
-	# TODO sysbanner..	
+	# TODO sysbanner..
+	./install_asterix.sh || { echo "Error $LINENO"; exit 1; }
 	./install_udfs.sh || { echo "Error $LINENO"; exit 1; }
 	./start_asterix.sh || { echo "Error $LINENO"; exit 1; }
 	./init_data.sh || { echo "Error $LINENO"; exit 1; }
