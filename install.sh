@@ -25,15 +25,31 @@ ssh localhost -C 'echo "Can ssh"' || {
 		exit 1
 	}
 
+
+# installing ansible in virtualenv as I don't have sudo on student		
+INSTALL_ENV="$PROJECT_HOME/env"
+if [ ! -d "$INSTALL_ENV" ]
+then
+	virtualenv $INSTALL_ENV
+fi
+
 pushd "$PROJECT_HOME/scripts"
-	echo "============== INSTALLING ANSIBLE ==========="
-	./install_ansible.sh || { echo "Error $LINENO"; exit 1; }
 	echo "============== INSTALLING ASTERIX ==========="
 	./install_asterix.sh || { echo "Error $LINENO"; exit 1; }
+
+	echo "============== ENTER ENV ==========="
+	source $INSTALL_ENV/bin/activate || { echo "Error $LINENO"; exit 1; }
+
+	echo "============== INSTALLING ANSIBLE ==========="
+	./install_ansible.sh || { echo "Error $LINENO"; exit 1; }
 	echo "=============== INSTALLING UDFS ============="
 	./install_udfs.sh || { echo "Error $LINENO"; exit 1; }
 	echo "============== STARTING ASTERIX ============="
 	./start_asterix.sh || { echo "Error $LINENO"; exit 1; }
+	
+	# virtual env is required only when using ansible
+	deactivate
+
 	echo "============= INITIALIZING DATA ============="
 	./init_data.sh || { echo "Error $LINENO"; exit 1; }
 popd
