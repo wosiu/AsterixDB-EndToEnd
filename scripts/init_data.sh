@@ -33,4 +33,4 @@ then
 	exit 1;
 fi
 
-echo "OK"
+echo "Tweeter data initialized successfully"

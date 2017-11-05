@@ -22,6 +22,7 @@ QUERY+="         SELECT VALUE t2.id  "
 QUERY+="         FROM TweetsSet t2 "
 QUERY+="         LET "
 QUERY+="             shng2 = test.\`testlib#shingle\`(t2.text, $SHINGLE), "
+# there were problems with similarity_jaccard_check which is claimed to be faster..
 QUERY+="             sim = (similarity_jaccard(shng1, shng2) > $JACCARD)"
 QUERY+="         WHERE sim AND t1.id != t2.id "
 QUERY+="    ); "
