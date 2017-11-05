@@ -26,18 +26,22 @@ ssh localhost -C 'echo "Can ssh"' || {
 	}
 
 
-# installing ansible in virtualenv as I don't have sudo on student		
+# installing ansible inside virtualenv as I don't have sudo on student		
+echo "============== CREATE ENV ============"	
 INSTALL_ENV="$PROJECT_HOME/env"
 if [ ! -d "$INSTALL_ENV" ]
 then
-	virtualenv $INSTALL_ENV
+	PYTHON2_PATH=`which python2`
+	virtualenv --python="$PYTHON2_PATH" $INSTALL_ENV || { echo "Error $LINENO"; exit 1; }
+else
+	echo "Using existing env, if want to recreate: rm -r $INSTALL_ENV"
 fi
 
 pushd "$PROJECT_HOME/scripts"
 	echo "============== INSTALLING ASTERIX ==========="
 	./install_asterix.sh || { echo "Error $LINENO"; exit 1; }
 
-	echo "============== ENTER ENV ==========="
+	echo "=================== ENTER ENV ==============="
 	source $INSTALL_ENV/bin/activate || { echo "Error $LINENO"; exit 1; }
 
 	echo "============== INSTALLING ANSIBLE ==========="
