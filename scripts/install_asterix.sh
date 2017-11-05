@@ -15,7 +15,9 @@ pushd "$PROJECT_HOME" > /dev/null
 	pushd download > /dev/null
 		if [ ! -f "$PACKAGE_NAME.zip" ]
 		then
-			wget http://www.apache.org/dyn/closer.lua/asterixdb/asterixdb-0.9.2/$PACKAGE_NAME.zip || { echo "Error while downloading $PACKAGE_NAME"; exit 1; }
+			wget http://ftp.ps.pl/pub/apache/asterixdb/asterixdb-0.9.2/$PACKAGE_NAME.zip \
+				|| { echo "Error while downloading $PACKAGE_NAME"; exit 1; }
+			rm -rf "$PROJECT_HOME/asterixdb" 
 		else
 			echo "$PACKAGE_NAME already downloaded, using previous one. Remove manually if want to force download"
 		fi	
