@@ -18,7 +18,7 @@ fi
 
 ASTERIX_HOME="$PROJECT_HOME/asterixdb"
 pushd "$ASTERIX_HOME/opt/ansible/bin" > /dev/null
-	./start.sh
+	./start.sh || { echo "Error while starting asterix"; exit 1; }
 popd > /dev/null
 
 # it takes few seconds to become usable..
@@ -29,7 +29,7 @@ do
 	then
 		exit 0
 	fi
-	sleep 1
+	sleep 2s
 	i=$[i+1]
 done
 
