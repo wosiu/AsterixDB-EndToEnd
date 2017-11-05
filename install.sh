@@ -9,11 +9,17 @@ then
 	popd > /dev/null
 fi
 
-proc=`jps -l | grep org.apache.hyracks.control | wc -l`
+function isAsterixRunning() {
+	out=`curl --data-urlencode "statement = SELECT VALUE 'ready';" --data mode=immediate http://localhost:19002/query/service 2>/dev/null` 
+	result=`echo $out | python -c "import sys, json; print json.load(sys.stdin)['results'][0]" 2>/dev/null || echo "python error"`
+	[[ "$result" == "ready" ]]
+}
 
-if [[ $proc > 0 ]]
+
+if isAsterixRunning
 then
-	echo "Hyracks is running, stop previous asterix execution..";
+	
+	echo "Asterix is running, stop previous instance..";
 	exit 1;
 fi
 
@@ -21,9 +27,13 @@ fi
 
 pushd "$PROJECT_HOME/scripts"
 	# TODO sysbanner..
+	echo "============== INSTALLING ASTERIX ==========="
 	./install_asterix.sh || { echo "Error $LINENO"; exit 1; }
+	echo "=============== INSTALLING UDFS ============="
 	./install_udfs.sh || { echo "Error $LINENO"; exit 1; }
+	echo "============== STARTING ASTERIX ============="
 	./start_asterix.sh || { echo "Error $LINENO"; exit 1; }
+	echo "============= INITIALIZING DATA ============="
 	./init_data.sh || { echo "Error $LINENO"; exit 1; }
 popd
 

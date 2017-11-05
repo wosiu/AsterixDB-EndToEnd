@@ -7,12 +7,17 @@ then
 	popd > /dev/null
 fi
 
-function getAsterixProcNum() {
-	echo `jps -l | grep org.apache.hyracks.control | wc -l`
+
+function isAsterixRunning() {
+	out=`curl --data-urlencode "statement = SELECT VALUE 'ready';" --data mode=immediate http://localhost:19002/query/service 2>/dev/null` 
+	result=`echo $out | python -c "import sys, json; print json.load(sys.stdin)['results'][0]" 2>/dev/null || echo "python error"`
+	[[ "$result" == "ready" ]]
 }
 
-if [[ `getAsterixProcNum` > 0 ]]
+
+if isAsterixRunning
 then
+	
 	echo "Asterix already running, skipping start..";
 	exit 0;
 fi
@@ -22,14 +27,19 @@ pushd "$ASTERIX_HOME/opt/ansible/bin" > /dev/null
 	./start.sh
 popd > /dev/null
 
-i=1
-while [[ `getAsterixProcNum` < 3 && $i < 10 ]]
+# it takes few seconds to become usable..
+i=0
+while [[ $i < 10 ]]
 do
+	if isAsterixRunning
+	then
+		exit 0
+	fi
 	sleep 1
 	i=$[i+1]
 done
 
-if [[ `getAsterixProcNum` < 3 ]]
+if ! isAsterixRunning
 then
 	echo "Cannot start asterix"
 	exit 1
