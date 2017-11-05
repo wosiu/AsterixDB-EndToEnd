@@ -17,6 +17,14 @@ then
 	exit 1;
 fi
 
+# ensure can ssh
+ssh localhost -C 'echo "Can ssh"' || { 
+		echo "Cannot ssh localhost, run:"
+		echo "cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys"
+		echo "if you know what you're doing"
+		exit 1
+	}
+
 pushd "$PROJECT_HOME/scripts"
 	echo "============== INSTALLING ANSIBLE ==========="
 	./install_ansible.sh || { echo "Error $LINENO"; exit 1; }
