@@ -41,10 +41,10 @@ pushd "$PROJECT_HOME/scripts"
 	echo "=================== ENTER ENV ==============="
 	source $INSTALL_ENV/bin/activate || { echo "Error $LINENO"; exit 1; }
 
-	echo "============== INSTALLING ASTERIX ==========="
-	./install_asterix.sh || { echo "Error $LINENO"; exit 1; }
 	echo "============== INSTALLING ANSIBLE ==========="
 	./install_ansible.sh || { echo "Error $LINENO"; exit 1; }
+	echo "============== INSTALLING ASTERIX ==========="
+	./install_asterix.sh || { echo "Error $LINENO"; exit 1; }
 	echo "=============== INSTALLING UDFS ============="
 	./install_udfs.sh || { echo "Error $LINENO"; exit 1; }
 	echo "============== STARTING ASTERIX ============="
