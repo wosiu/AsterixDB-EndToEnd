@@ -19,7 +19,7 @@ fi
 
 # ensure can ssh
 ssh localhost -C 'echo "Can ssh"' || { 
-		echo "Cannot ssh localhost, run:"
+		echo "Cannot ssh localhost without password, run:"
 		echo "cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys"
 		echo "if you know what you're doing"
 		exit 1
