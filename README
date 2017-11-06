@@ -1,0 +1,23 @@
+instalacja: 
+	install.sh
+
+uruchomienie pętli pytającej (uruchomii i zakończy instancję asterixa): 
+	query.sh threshold
+
+ręczne stopowanie asterix'a: 
+	source env/bin/activate
+	scripts/stop_asterix.sh
+	deactivate
+
+feedowanie:
+	tweets/tweets_feed
+	format: uid, text
+		np. 6, "Some string"
+
+struktura:
+	- tweets - tweety do zainicjalizowania i plik feedu
+	- scripts - skrypty bashowe uruchamiane przez install.sh oraz query.sh
+	- asterix-udf-template - kod java z UDF shingle
+	- download - pobrane pliki instalacyjne
+	- asterixDB - silnik asterixa
+	- env - środowisko zależności
