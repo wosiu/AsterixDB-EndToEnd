@@ -12,7 +12,6 @@ fi
 source "$PROJECT_HOME/scripts/commons.sh"
 if isAsterixRunning
 then
-	
 	echo "Asterix is running, stop previous instance..";
 	exit 1;
 fi
