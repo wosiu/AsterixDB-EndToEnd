@@ -1,18 +1,20 @@
 instalacja: 
 	install.sh
 
-uruchomienie pętli pytającej (uruchomii i zakończy instancję asterixa): 
+uruchomienie pętli pytającej (uruchomi i zakończy instancję asterixa): 
 	query.sh threshold
-
-ręczne stopowanie asterix'a: 
-	source env/bin/activate
-	scripts/stop_asterix.sh
-	deactivate
+	wynik:
+	[ [tweet_id, [similar tweets ids]], ... ]
 
 feedowanie:
 	tweets/tweets_feed
 	format: uid, text
 		np. 6, "Some string"
+
+ręczne stopowanie asterix'a w razie potrzeby: 
+	source env/bin/activate
+	scripts/stop_asterix.sh
+	deactivate
 
 struktura:
 	- tweets - tweety do zainicjalizowania i plik feedu
