@@ -20,9 +20,10 @@ package org.apache.asterix.external.library;
 
 import org.apache.asterix.external.api.IExternalScalarFunction;
 import org.apache.asterix.external.api.IFunctionHelper;
-import org.apache.asterix.external.library.java.JObjects;
+import org.apache.asterix.external.library.java.JObjects.JOrderedList;
+import org.apache.asterix.external.library.java.JObjects.JInt;
+import org.apache.asterix.external.library.java.JObjects.JString;
 import org.apache.asterix.external.library.java.JTypeTag;
-import org.apache.asterix.om.types.BuiltinType;
 
 public class ShingleFunction implements IExternalScalarFunction {
     @Override
@@ -32,13 +33,13 @@ public class ShingleFunction implements IExternalScalarFunction {
 
     @Override
     public void evaluate(IFunctionHelper functionHelper) throws Exception {
-        String text = ((JObjects.JString) functionHelper.getArgument(0)).getValue();
-        int n = ((JObjects.JInt) functionHelper.getArgument(1)).getValue();
+        String text = ((JString) functionHelper.getArgument(0)).getValue();
+        int n = ((JInt) functionHelper.getArgument(1)).getValue();
 
-        JObjects.JList jList = new JObjects.JOrderedList(functionHelper.getObject(JTypeTag.STRING));
+        JOrderedList jList = new JOrderedList(functionHelper.getObject(JTypeTag.STRING));
 
-        for (int i = 0; i < text.length() - n; i++) {
-            JObjects.JString shingl = (JObjects.JString) functionHelper.getObject(JTypeTag.STRING);
+        for (int i = 0; i <= text.length() - n; i++) {
+            JString shingl = (JString) functionHelper.getObject(JTypeTag.STRING);
             shingl.setValue(text.substring(i, i + n));
             jList.add(shingl);
         }

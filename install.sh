@@ -56,4 +56,4 @@ pushd "$PROJECT_HOME/scripts"
 	./init_data.sh || { echo "Error $LINENO"; exit 1; }
 popd
 
-echo "Asterix is running, run script/stop_asterix.sh after you're done"
+echo "Asterix is running, run scripts/stop_asterix.sh after you're done"
